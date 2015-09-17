@@ -17,7 +17,11 @@
         %>
         <%= link_to '',
             { :controller => '/time_loggers', :action => 'stop' },
-            { :class => 'icon-action icon-stop-action', :title => l(:stop_time_logger) }
+            :class => 'icon-action icon-stop-action',
+            :title => l(:stop_time_logger),
+            :"data-replace" => '#time-logger-menu',
+            :remote => true,
+            :onclick => 'setTimeout(updateTimeLoggerMenu, 500)'
          %>
     <% else %>
         <%# A time tracker is running, display the tracked issue, the time spent and the suspend/stop actions %>
@@ -26,16 +30,20 @@
             { :class => 'icon icon-clock' }
         %>
          / <%= time_logger.time_spent_to_s %> /
-        <%= link_to '',
-            { :controller => '/time_loggers', :action => 'suspend' },
-            :class => 'icon-action icon-pause-action',
-	    :title => l(:suspend_time_logger),
-            :"data-replace" => '#time-logger-menu',
-	    :remote => true
+        <%= #link_to '',
+            #{ :controller => '/time_loggers', :action => 'suspend' },
+            #:class => 'icon-action icon-pause-action',
+	    #:title => l(:suspend_time_logger),
+            #:"data-replace" => '#time-logger-menu',
+	    #:remote => true
         %>
         <%= link_to '',
             { :controller => '/time_loggers', :action => 'stop' },
-            { :class => 'icon-action icon-stop-action', :title => l(:stop_time_logger) }
+            :class => 'icon-action icon-stop-action',
+            :title => l(:stop_time_logger),
+            :"data-replace" => '#time-logger-menu',
+            :remote => true,
+            :onclick => 'setTimeout(updateTimeLoggerMenu, 500)'
         %>
     <% end %>
 <% elsif !@project.nil? and User.current.allowed_to?(:log_time, @project) and !(@issue.nil? || @issue.new_record?) %>

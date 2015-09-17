@@ -19,7 +19,7 @@
 .icon-stop-action { background-image: url(../images/stop.png); }
 .icon-list-action { background-image: url(../images/list.png); }
 
-#time-logger-menu { margin-right: 8px; }
+#time-logger-menu { position:fixed; bottom:0px; right:8px; background:black; padding:1em; z-index:99999; }
 #time-logger-menu a { margin-right: 0px; }
 #time-logger-menu .icon { padding-left: 20px; }
 

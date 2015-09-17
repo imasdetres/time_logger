@@ -66,11 +66,18 @@ class TimeLoggersController < ApplicationController
             flash[:error] = l(:no_time_logger_running)
             redirect_to :back
         else
-            issue_id = @time_logger.issue_id
-            hours = @time_logger.hours_spent.round(2)
             @time_logger.destroy
 
-            redirect_to :controller => 'issues', :action => 'edit', :id => issue_id, :time_entry => { :hours => hours }
+            @issue = Issue.find_by_id(@time_logger.issue_id)
+            time_entry = TimeEntry.new
+            time_entry.project = @issue.project
+            time_entry.issue = @issue
+            time_entry.user = User.current
+            time_entry.spent_on = User.current.today
+            time_entry.attributes = { :hours => @time_logger.hours_spent.round(2), :comments => 'Time logger' }
+            @issue.time_entries << time_entry
+
+            render_menu
         end
     end
 
