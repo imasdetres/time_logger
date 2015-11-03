@@ -1,0 +1,8 @@
+api.time_logger do
+  time_logger = time_logger_for(User.current)
+  if !time_logger.nil?
+    api.issue_id time_logger.issue_id
+    api.paused time_logger.paused
+    api.time_spent_to_s time_logger.time_spent_to_s
+  end
+end
