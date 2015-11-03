@@ -1,5 +1,6 @@
 class TimeLoggersController < ApplicationController
   unloadable
+  accept_api_auth :index, :start, :resume, :suspend, :stop, :delete, :render_menu
 
   def index
     if User.current.nil?
