@@ -49,9 +49,7 @@
     background-image: url(../images/colorized/list.png);
 }
 
-/* use the one below if you want the time logger in the bottom oon it's own
-#time-logger-menu { position:fixed; bottom:0px; right:8px; background:black; padding:1em; }
-*/
+#time-logger-menu { position:fixed; bottom:0px; right:8px; background:black; padding:1em; z-index:99999; }
 
 #time-logger-admin td.start-date,
 #time-logger-admin td.spent-time,

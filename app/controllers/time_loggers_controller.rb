@@ -67,25 +67,36 @@ class TimeLoggersController < ApplicationController
       flash[:error] = l(:no_time_logger_running)
       redirect_to :back
     else
-      issue_id = @time_logger.issue_id
-      hours = @time_logger.hours_spent.round(2)
+#      issue_id = @time_logger.issue_id
+#      hours = @time_logger.hours_spent.round(2)
       @time_logger.destroy
 
-      redirect_to_new_time_entry = Setting.plugin_time_logger['redirect_to_new_time_entry']
+#      redirect_to_new_time_entry = Setting.plugin_time_logger['redirect_to_new_time_entry']
+#
+#      if redirect_to_new_time_entry
+#        redirect_to controller: 'timelog',
+#                    protocol: Setting.protocol,
+#                    action: 'new',
+#                    issue_id: issue_id,
+#                    time_entry: { hours: hours }
+#      else
+#        redirect_to controller: 'issues',
+#                    protocol: Setting.protocol,
+#                    action: 'edit',
+#                    id: issue_id,
+#                    time_entry: { hours: hours }
+#      end
 
-      if redirect_to_new_time_entry
-        redirect_to controller: 'timelog',
-                    protocol: Setting.protocol,
-                    action: 'new',
-                    issue_id: issue_id,
-                    time_entry: { hours: hours }
-      else
-        redirect_to controller: 'issues',
-                    protocol: Setting.protocol,
-                    action: 'edit',
-                    id: issue_id,
-                    time_entry: { hours: hours }
-      end
+      @issue = Issue.find_by_id(@time_logger.issue_id)
+      time_entry = TimeEntry.new
+      time_entry.project = @issue.project
+      time_entry.issue = @issue
+      time_entry.user = User.current
+      time_entry.spent_on = User.current.today
+      time_entry.attributes = { :hours => @time_logger.hours_spent.round(2), :comments => 'Time logger' }
+      @issue.time_entries << time_entry
+
+      render_menu
     end
   end
 
